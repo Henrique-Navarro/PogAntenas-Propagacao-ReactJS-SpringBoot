@@ -8,11 +8,10 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class Pon {
-    private double transPower;
-    private double recvSensitivity;
-    private double fiberAttenuation;
-    private double connectorLoss;
-    private double splitterLoss;
-    private double maxDistance;
-    private boolean erro;
+    private Double transPower;
+    private Double recvSensitivity;
+    private Double fiberAttenuation;
+    private Double connectorLoss;
+    private Double splitterLoss;
+    private Double maxDistance;
 }

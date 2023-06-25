@@ -24,7 +24,8 @@ public class PonController {
     public ResponseEntity<String> calcular(@RequestBody Pon pon) throws JsonProcessingException {
         Pon responseData = ponService.calculateValues(pon);
 
-        if (responseData.isErro()) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Dados Faltantes");
+        if (responseData == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Dados Faltantes");
 
         return ResponseEntity.ok(objectMapper.writeValueAsString(responseData));
     }
