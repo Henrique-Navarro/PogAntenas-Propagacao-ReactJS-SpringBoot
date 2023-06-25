@@ -14,5 +14,4 @@ public class Pon {
     private double connectorLoss;
     private double splitterLoss;
     private double maxDistance;
-    private boolean erro;
 }

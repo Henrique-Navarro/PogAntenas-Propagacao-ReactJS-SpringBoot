@@ -1,6 +1,5 @@
 package simulador.redes_opticas.pon.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -13,19 +12,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 @CrossOrigin(origins = "*")
 public class PonController {
-
+    
     @Autowired
     private PonService ponService;
-
+    
     @Autowired
     private ObjectMapper objectMapper;
-
+    
     @PostMapping
-    public ResponseEntity<String> calcular(@RequestBody Pon pon) throws JsonProcessingException {
-        Pon responseData = ponService.calculateValues(pon);
-
-        if (responseData.isErro()) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Dados Faltantes");
-
-        return ResponseEntity.ok(objectMapper.writeValueAsString(responseData));
+    public ResponseEntity<String> calcular(@RequestBody Pon pon){
+        try {
+            Pon responseData = ponService.calculateValues(pon);
+            String jsonResponse = objectMapper.writeValueAsString(responseData);
+            return ResponseEntity.ok(jsonResponse);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 }
