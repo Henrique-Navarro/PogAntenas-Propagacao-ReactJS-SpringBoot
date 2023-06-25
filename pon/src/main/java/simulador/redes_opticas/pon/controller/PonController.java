@@ -20,13 +20,12 @@ public class PonController {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @PostMapping
-    public ResponseEntity<String> calcular(@RequestBody Pon pon) throws JsonProcessingException {
+    @GetMapping
+    public ResponseEntity<Pon> calcular(@RequestBody Pon pon) throws JsonProcessingException {
         Pon responseData = ponService.calculateValues(pon);
 
-        if (responseData == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Dados Faltantes");
+        if (responseData == null) return new ResponseEntity<Pon>(HttpStatus.BAD_REQUEST);
 
-        return ResponseEntity.ok(objectMapper.writeValueAsString(responseData));
+        return new ResponseEntity<Pon>(responseData, HttpStatus.OK);
     }
 }
