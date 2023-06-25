@@ -20,7 +20,7 @@ public class PonController {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @GetMapping
+    @PostMapping
     public ResponseEntity<Pon> calcular(@RequestBody Pon pon) throws JsonProcessingException {
         Pon responseData = ponService.calculateValues(pon);
 
