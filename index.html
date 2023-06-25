@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Simulador de Redes Ópticas PON</title>
+</head>
+
+<body>
+    <h1>Simulador de Redes Ópticas PON</h1>
+    <form id="myForm">
+        <label for="oltDist">Distância entre OLT e ONU:</label>
+        <input type="number" id="oltDist" name="oltDist" required><br><br>
+
+        <label for="transPower">Potência de Transmissão:</label>
+        <input type="number" id="transPower" name="transPower" required><br><br>
+
+        <label for="recvSensitivity">Sensibilidade de Recepção:</label>
+        <input type="number" id="recvSensitivity" name="recvSensitivity" required><br><br>
+
+        <input type="submit" value="Calcular">
+    </form>
+
+    <script>
+        document.getElementById("myForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Impede o envio do formulário
+
+            // Captura dos dados inseridos pelo usuário
+            var oltDist = parseFloat(document.getElementById("oltDist").value);
+            var transPower = parseFloat(document.getElementById("transPower").value);
+            var recvSensitivity = parseFloat(document.getElementById("recvSensitivity").value);
+
+            // Chamada para a função de cálculo ou outras operações necessárias
+            // Substitua o código abaixo com a lógica do cálculo dos parâmetros da rede óptica
+
+            // Exemplo: exibição dos valores inseridos pelo usuário
+            console.log("Distância entre OLT e ONU: " + oltDist);
+            console.log("Potência de Transmissão: " + transPower);
+            console.log("Sensibilidade de Recepção: " + recvSensitivity);
+        });
+    </script>
+</body>
+
+</html>
