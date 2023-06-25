@@ -88,12 +88,12 @@ public class PonService {
         }
         if (qtd_faltantes++ > 1) return null;
 
-        pon.setTransPower(transPower);
-        pon.setRecvSensitivity(recvSensitivity);
-        pon.setFiberAttenuation(fiberAttenuation);
-        pon.setConnectorLoss(connectorLoss);
-        pon.setSplitterLoss(splitterLoss);
-        pon.setMaxDistance(maxDistance);
+        pon.setTransPower(Math.round(transPower * 100.0) / 100.0);
+        pon.setRecvSensitivity(Math.round(recvSensitivity * 100.0) / 100.0);
+        pon.setFiberAttenuation(Math.round(fiberAttenuation * 100.0) / 100.0);
+        pon.setConnectorLoss(Math.round(connectorLoss * 100.0) / 100.0);
+        pon.setSplitterLoss(Math.round(splitterLoss * 100.0) / 100.0);
+        pon.setMaxDistance(Math.round(maxDistance * 100.0) / 100.0);
 
         return pon;
     }
