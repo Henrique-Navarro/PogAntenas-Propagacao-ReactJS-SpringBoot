@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import './App.css'
+import './App.css';
 import Topo from "./img/TOPOGRAFIA.png";
-
 
 const App = () => {
   const [transPower, setTransPower] = useState('');
@@ -10,9 +9,8 @@ const App = () => {
   const [connectorLoss, setConnectorLoss] = useState('');
   const [splitterLoss, setSplitterLoss] = useState('');
   const [maxDistance, setMaxDistance] = useState('');
+  const [dadosRecebidos, setDadosRecebidos] = useState(null);
 
-
- 
   const fazer_requisicao = async (e) => {
     e.preventDefault();
     const dados = {
@@ -23,7 +21,7 @@ const App = () => {
       splitterLoss,
       maxDistance,
     };
-  
+
     fetch("http://localhost:8080", {
       method: "POST",
       headers: {
@@ -33,33 +31,34 @@ const App = () => {
     })
       .then((resp) => resp.json())
       .then((data) => {
+        // Atualize os campos de entrada com os valores recebidos
+        setTransPower(data.transPower);
+        setRecvSensitivity(data.recvSensitivity);
+        setFiberAttenuation(data.fiberAttenuation);
+        setConnectorLoss(data.connectorLoss);
+        setSplitterLoss(data.splitterLoss);
+        setMaxDistance(data.maxDistance);
+
         // Atualize seus dados com base na resposta recebida
-        this.setTransPower({ dadosRecebidos: data });
-        this.setRecvSensitivity({ dadosRecebidos: data });
-        this.setFiberAttenuation({ dadosRecebidos: data });
-        this.setConnectorLoss({ dadosRecebidos: data });
-        this.setSplitterLoss({ dadosRecebidos: data });
-        this.setMaxDistance({ dadosRecebidos: data });
+        setDadosRecebidos(data);
         console.log(data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  
 
   return (
     <div>
       <h1>Simulador de Redes Ópticas PON</h1>
-<div className='topo'>
-<img
-            src={Topo}
-            alt="imagem da Topografia"
-            title="Topografia"
-          />
-</div>
-      
-    
+      <div className='topo'>
+        <img
+          src={Topo}
+          alt="imagem da Topografia"
+          title="Topografia"
+        />
+      </div>
+
       <form onSubmit={fazer_requisicao}>
         <label htmlFor="transPower">Potência de Transmissão:</label>
         <input
@@ -125,6 +124,19 @@ const App = () => {
           <input type="submit" value="Calcular" id="btn" />
         </div>
       </form>
+
+      {/* Exibir os dados recebidos, se houver */}
+      {dadosRecebidos && (
+        <div>
+          <h2>Dados Recebidos:</h2>
+          <p>TransPower: {dadosRecebidos.transPower}</p>
+          <p>RecvSensitivity: {dadosRecebidos.recvSensitivity}</p>
+          <p>FiberAttenuation: {dadosRecebidos.fiberAttenuation}</p>
+          <p>ConnectorLoss: {dadosRecebidos.connectorLoss}</p>
+          <p>SplitterLoss: {dadosRecebidos.splitterLoss}</p>
+          <p>MaxDistance: {dadosRecebidos.maxDistance}</p>
+        </div>
+      )}
     </div>
   );
 };
