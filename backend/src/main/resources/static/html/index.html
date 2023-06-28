@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simulador de Redes Ópticas PON</title>
+</head>
+<body>
+<h1>Simulador de Redes Ópticas PON</h1>
+<form id="myForm">
+    <label for="oltDist">Distância entre OLT e ONU:</label>
+    <input type="number" id="oltDist" name="oltDist" required><br><br>
+
+    <label for="transPower">Potência de Transmissão:</label>
+    <input type="number" id="transPower" name="transPower" required><br><br>
+
+    <label for="recvSensitivity">Sensibilidade de Recepção:</label>
+    <input type="number" id="recvSensitivity" name="recvSensitivity" required><br><br>
+
+    <input type="submit" value="Calcular">
+</form>
+
+<script>
+        document.getElementById("myForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Impede o envio do formulário
+
+            // Captura dos dados inseridos pelo usuário
+            var oltDist = parseFloat(document.getElementById("oltDist").value);
+            var transPower = parseFloat(document.getElementById("transPower").value);
+            var recvSensitivity = parseFloat(document.getElementById("recvSensitivity").value);
+
+            // Cálculo dos parâmetros da rede óptica
+            var attenuation = 0.2; // Exemplo de atenuação por unidade de comprimento da fibra empregada
+            var connectorLoss = 0.1; // Exemplo de perdas por conectores
+            var splitterLoss = 0.5; // Exemplo de perdas por divisores de potência
+
+            // Cálculo da distância máxima do enlace entre OLT e ONU
+            var maxDistance = (transPower - recvSensitivity - connectorLoss - splitterLoss) / attenuation;
+
+            // Exibição do resultado na página
+            var resultElement = document.createElement("p");
+            resultElement.textContent = "A distância máxima do enlace entre OLT e ONU é de: " + maxDistance.toFixed(2) + " unidades de comprimento.";
+            document.body.appendChild(resultElement);
+        });
+    </script>
+</body>
+</html>
