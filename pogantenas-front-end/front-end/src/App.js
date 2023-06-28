@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './App.css'
 import Topo from "./img/TOPOGRAFIA.png";
-import 'react-image-lightbox/style.css';
+
+
 const App = () => {
   const [transPower, setTransPower] = useState('');
   const [recvSensitivity, setRecvSensitivity] = useState('');
@@ -10,19 +11,43 @@ const App = () => {
   const [splitterLoss, setSplitterLoss] = useState('');
   const [maxDistance, setMaxDistance] = useState('');
 
-  const handleSubmit = (event) => {
-    }
+
+ 
+  const fazer_requisicao = async (e) => {
+    e.preventDefault();
+    const dados = {
+      transPower,
+      recvSensitivity,
+      fiberAttenuation,
+      connectorLoss,
+      splitterLoss,
+      maxDistance,
+    };
+  
+    fetch("http://localhost:8080", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dados),
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        // Atualize seus dados com base na resposta recebida
+        this.setTransPower({ dadosRecebidos: data });
+        this.setRecvSensitivity({ dadosRecebidos: data });
+        this.setFiberAttenuation({ dadosRecebidos: data });
+        this.setConnectorLoss({ dadosRecebidos: data });
+        this.setSplitterLoss({ dadosRecebidos: data });
+        this.setMaxDistance({ dadosRecebidos: data });
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   
 
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleImageClick = () => {
-    setIsOpen(true);
-  };
-
-  const handleClose = () => {
-    setIsOpen(false);
-  }
   return (
     <div>
       <h1>Simulador de Redes Ópticas PON</h1>
@@ -35,7 +60,7 @@ const App = () => {
 </div>
       
     
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={fazer_requisicao}>
         <label htmlFor="transPower">Potência de Transmissão:</label>
         <input
           type="number"
@@ -43,7 +68,7 @@ const App = () => {
           name="transPower"
           step="any"
           value={transPower}
-          onChange={(event) => setTransPower(event.target.value)}
+          onChange={(e) => setTransPower(e.target.value)}
         /><br /><br />
 
         <label htmlFor="recvSensitivity">Sensibilidade de Recepção:</label>
@@ -53,7 +78,7 @@ const App = () => {
           name="recvSensitivity"
           step="any"
           value={recvSensitivity}
-          onChange={(event) => setRecvSensitivity(event.target.value)}
+          onChange={(e) => setRecvSensitivity(e.target.value)}
         /><br /><br />
 
         <label htmlFor="fiberAttenuation">Atenuação por Unidade de Comprimento da Fibra:</label>
@@ -63,7 +88,7 @@ const App = () => {
           name="fiberAttenuation"
           step="any"
           value={fiberAttenuation}
-          onChange={(event) => setFiberAttenuation(event.target.value)}
+          onChange={(e) => setFiberAttenuation(e.target.value)}
         /><br /><br />
 
         <label htmlFor="connectorLoss">Perdas por Conectores:</label>
@@ -73,7 +98,7 @@ const App = () => {
           name="connectorLoss"
           step="any"
           value={connectorLoss}
-          onChange={(event) => setConnectorLoss(event.target.value)}
+          onChange={(e) => setConnectorLoss(e.target.value)}
         /><br /><br />
 
         <label htmlFor="splitterLoss">Perdas por Divisores de Potência:</label>
@@ -83,7 +108,7 @@ const App = () => {
           name="splitterLoss"
           step="any"
           value={splitterLoss}
-          onChange={(event) => setSplitterLoss(event.target.value)}
+          onChange={(e) => setSplitterLoss(e.target.value)}
         /><br /><br />
 
         <label htmlFor="maxDistance">Distância Máxima do Enlace entre OLT e ONU:</label>
@@ -93,7 +118,7 @@ const App = () => {
           name="maxDistance"
           step="any"
           value={maxDistance}
-          onChange={(event) => setMaxDistance(event.target.value)}
+          onChange={(e) => setMaxDistance(e.target.value)}
         /><br /><br />
 
         <div id="btn_div">
